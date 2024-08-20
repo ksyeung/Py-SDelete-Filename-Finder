@@ -3,7 +3,7 @@ This program helps identify $J artifacts created during SDelete execution by ana
 
 ![Demo](https://github.com/ksyeung/Py-SDelete-Filename-Finder/blob/main/Recording.gif?raw=true)
 
-Malicious actors sometimes utilise [Sysinternals SDelete](https://learn.microsoft.com/en-us/sysinternals/downloads/sdelete) to wipe files they've dropped in order to prevent recovery and forensic analysis. As part of this wiping process, it rewrites the filename, which will look like "AAAA.AAA", "BBBB.BBB", "CCCC.CCC", ... , "ZZZZ.ZZZ". This leaves a distinct pattern in $J, the USN Journal. If you suspect SDelete may have been used because you've found evidence of execution, this tool may be useful to you.
+Malicious actors sometimes utilise [Sysinternals SDelete](https://learn.microsoft.com/en-us/sysinternals/downloads/sdelete) to wipe files they've dropped in order to prevent recovery and forensic analysis. As part of this wiping process, it rewrites the filename, which will look like "AAAA.AAA", "BBBB.BBB", ... , "ZZZZ.ZZZ". This leaves a distinct pattern in $J, the USN Journal. If you've found evidence of SDelete execution, this tool may be useful to you.
 
 How does it work?
 
@@ -13,11 +13,17 @@ How does it work?
 
 How do you use it?
 - You'll need Joakim Schicht's [ExtractUsnJrnl](https://github.com/jschicht/ExtractUsnJrnl) to grab the change journal.
+
+
   `ExtractUsnJrnl.exe /DevicePath:c: /OutputName:J.bin`
 - You'll need Eric Zimmerman's [MFTECmd](https://github.com/EricZimmerman/MFTECmd) to parse the change journal (Note: --fl is used in this case to compel full precision timestamps, which is not otherwise provided).
-  `MFTECmd.exe -f J.bin --csv . --fl`
+
+
+  `MFTECmd.exe -f $J.bin --csv . --csvf J.csv --fl`
 - Now that you've got a CSV export of $J, you'll pass it through to sdelete_filename_finder.py.
-`python sdelete_filename_finder.py --f  .\J.csv --o .\sdeleted_filenames.csv`
+
+
+  `python sdelete_filename_finder.py --f  .\J.csv --o .\sdeleted_filenames.csv`
 
 Usage notes:
 - The '-o' arg is optional.

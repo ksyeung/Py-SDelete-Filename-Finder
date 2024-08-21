@@ -45,7 +45,15 @@ Usage notes:
 
 References:
 https://learn.microsoft.com/en-us/sysinternals/downloads/sdelete
+
+
 https://github.com/jschicht/ExtractUsnJrnl
+
+
 https://github.com/EricZimmerman/MFTECmd
+
+
 https://attack.mitre.org/techniques/T1070/004
+
+
 https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-usn_record_v2
